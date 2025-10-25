@@ -2,9 +2,7 @@ package racingcar.domain;
 
 import racingcar.global.ErrorMessage;
 
-import java.util.Objects;
-
-public class RacingCar {
+public class RacingCar implements Cloneable{
 
     private final String carName;
     private int state;
@@ -67,16 +65,11 @@ public class RacingCar {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        RacingCar racingCar = (RacingCar) o;
-        return state == racingCar.state;
+    public RacingCar clone() {
+        try {
+            return (RacingCar) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(state);
-    }
-
-
 }
