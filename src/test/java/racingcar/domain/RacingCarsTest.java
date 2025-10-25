@@ -31,11 +31,38 @@ class RacingCarsTest {
     }
 
     @Test
-    void 한개의_자동차_생성_예외() {
+    void 가장_큰_state를_가진_자동차를_우승자로_반환() {
         RacingCar pobi = RacingCar.from("pobi");
-        assertThatThrownBy(() -> RacingCars.from(List.of(pobi)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.INVALID_CARS_COUNT);
+        RacingCar jun = RacingCar.from("jun");
+        RacingCar park = RacingCar.from("park");
+
+        RacingCars racingCars = RacingCars.from(List.of(pobi, jun, park));
+
+        pobi.move(4);
+        pobi.move(4);
+        jun.move(4);
+        park.move(3);
+
+
+
+        RacingCars winners = racingCars.findWinner();
+
+        assertThat(winners.toString()).contains("pobi");
+        assertThat(winners.toString()).doesNotContain("jun", "park");
     }
 
+    @Test
+    void 최대값이_동일하면_공동_우승자를_반환() {
+        RacingCar pobi = RacingCar.from("pobi");
+        RacingCar jun = RacingCar.from("jun");
+
+        pobi.move(4);
+        jun.move(4);
+
+        RacingCars racingCars = RacingCars.from(List.of(pobi, jun));
+
+        RacingCars winners = racingCars.findWinner();
+
+        assertThat(winners.toString()).contains("pobi", "jun");
+    }
 }
