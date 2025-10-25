@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
-    private Parser() {}
-
     public static List<String> parseToRacingCars(String inputNames) {
         validateDelimiterUsage(inputNames);
         return Arrays.stream(inputNames.split(","))
@@ -58,5 +56,8 @@ public class Parser {
             throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_MAX_SIZE);
         }
     }
+
+    private Parser() {}
+
 
 }
