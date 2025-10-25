@@ -57,6 +57,9 @@ public class RacingCar {
         }
     }
 
+    public int getState() {
+        return state;
+    }
 
     @Override
     public String toString() {

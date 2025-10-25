@@ -19,8 +19,8 @@ class RacingCarTest{
     void 자동차가_전진한_자동차와_그렇지_않은_자동차는_위치가_다르다() {
         RacingCar pobi = RacingCar.from("pobi");
         RacingCar java = RacingCar.from("java");
-        pobi.move();
-        Assertions.assertThat(pobi).isNotEqualTo(java);
+        pobi.move(4);
+        Assertions.assertThat(pobi.getState()).isNotEqualTo(java.getState());
     }
 
 
