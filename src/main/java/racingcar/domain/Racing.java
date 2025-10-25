@@ -27,6 +27,4 @@ public class Racing {
         return roundResult;
     }
 
-
-
 }

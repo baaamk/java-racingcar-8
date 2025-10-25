@@ -55,6 +55,10 @@ public class RacingCar implements Cloneable{
         }
     }
 
+    public String getCarName() {
+        return carName;
+    }
+
     public int getState() {
         return state;
     }
@@ -63,6 +67,7 @@ public class RacingCar implements Cloneable{
     public String toString() {
         return carName;
     }
+
 
     @Override
     public RacingCar clone() {
