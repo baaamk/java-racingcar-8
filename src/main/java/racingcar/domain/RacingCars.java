@@ -35,6 +35,10 @@
             if (racingCars == null || racingCars.isEmpty()) {
                 throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_NULL);
             }
+
+            if (racingCars.size() == 1) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_CARS_COUNT);
+            }
         }
 
         @Override
