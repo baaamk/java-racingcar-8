@@ -14,7 +14,7 @@ class RacingTest {
         RacingCars racingCars = RacingCars.from(List.of("pobi"));
         Racing racing = Racing.of(3, racingCars);
 
-        Map<Integer, RacingCars> results = racing.playRacing(3);
+        Map<Integer, RacingCars> results = racing.playRacing();
 
         RacingCars firstRound = results.get(1);
         RacingCars lastRound = results.get(3);
