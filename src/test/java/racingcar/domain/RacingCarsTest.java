@@ -5,22 +5,21 @@ import racingcar.global.ErrorMessage;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class RacingCarsTest {
 
     @Test
     void play_호출시_자동차중_일부는_상태가_변할_수_있다() {
-        RacingCar pobi = RacingCar.from("pobi");
-        RacingCar java = RacingCar.from("java");
-        RacingCars racingCars = RacingCars.from(List.of(pobi, java));
+        RacingCars racingCars = RacingCars.from(List.of("pobi", "java"));
 
         racingCars.play();
 
-        assertThat(pobi.getState()).isGreaterThanOrEqualTo(0);
-        assertThat(java.getState()).isGreaterThanOrEqualTo(0);
-
+        // 각 자동차의 상태가 0 이상인지 확인
+        racingCars.getRacingCars().forEach(car ->
+                assertThat(car.getState()).isGreaterThanOrEqualTo(0)
+        );
     }
 
     @Test
@@ -32,18 +31,13 @@ class RacingCarsTest {
 
     @Test
     void 가장_큰_state를_가진_자동차를_우승자로_반환() {
-        RacingCar pobi = RacingCar.from("pobi");
-        RacingCar jun = RacingCar.from("jun");
-        RacingCar park = RacingCar.from("park");
+        RacingCars racingCars = RacingCars.from(List.of("pobi", "jun", "park"));
 
-        RacingCars racingCars = RacingCars.from(List.of(pobi, jun, park));
-
-        pobi.move(4);
-        pobi.move(4);
-        jun.move(4);
-        park.move(3);
-
-
+        // 상태 직접 조작 (move 호출)
+        racingCars.getRacingCars().get(0).move(4);
+        racingCars.getRacingCars().get(0).move(4);
+        racingCars.getRacingCars().get(1).move(4);
+        racingCars.getRacingCars().get(2).move(3);
 
         RacingCars winners = racingCars.findWinner();
 
@@ -53,13 +47,10 @@ class RacingCarsTest {
 
     @Test
     void 최대값이_동일하면_공동_우승자를_반환() {
-        RacingCar pobi = RacingCar.from("pobi");
-        RacingCar jun = RacingCar.from("jun");
+        RacingCars racingCars = RacingCars.from(List.of("pobi", "jun"));
 
-        pobi.move(4);
-        jun.move(4);
-
-        RacingCars racingCars = RacingCars.from(List.of(pobi, jun));
+        racingCars.getRacingCars().get(0).move(4);
+        racingCars.getRacingCars().get(1).move(4);
 
         RacingCars winners = racingCars.findWinner();
 
