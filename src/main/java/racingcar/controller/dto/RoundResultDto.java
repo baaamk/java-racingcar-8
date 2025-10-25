@@ -1,6 +1,5 @@
 package racingcar.controller.dto;
 
-import racingcar.domain.Racing;
 import racingcar.domain.RacingCars;
 
 import java.util.Map;

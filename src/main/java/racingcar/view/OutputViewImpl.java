@@ -30,12 +30,12 @@ public class OutputViewImpl implements OutputView {
                 .forEach(entry -> {
                     RacingCars racingCars = entry.getValue();
 
-                    racingCars.getRacingCars().forEach(car -> {
+                    racingCars.getRacingCars().forEach(car ->
                         sb.append(car.getCarName())
                                 .append(" : ")
                                 .append("-".repeat(car.getState()))
-                                .append("\n");
-                    });
+                                .append("\n")
+                    );
 
                     sb.append("\n");
                 });
