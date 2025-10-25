@@ -16,8 +16,19 @@ public class Parser {
     }
 
     public static int parseToTryNumber(String inputTryNumber) {
+        try {
+            return getValidatedNumber(inputTryNumber);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_FORMAT);
+        }
+    }
+
+    private static int getValidatedNumber(String inputTryNumber) {
         String trimmedNumber = inputTryNumber.trim();
-        return Integer.parseInt(trimmedNumber);
+        validateNotDecimal(trimmedNumber);
+        long tryNumber = Long.parseLong(trimmedNumber);
+        validateNumberRange(tryNumber);
+        return (int) tryNumber;
     }
 
     private static void validateDelimiterUsage(String inputNames) {
@@ -29,6 +40,22 @@ public class Parser {
         }
         if (!inputNames.contains(",")) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_DELIMITER);
+        }
+    }
+
+    private static void validateNotDecimal(String trimmedNumber) {
+        if (trimmedNumber.contains(".")) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_FORMAT);
+        }
+    }
+
+    private static void validateNumberRange(long inputTryNumber) {
+        if (inputTryNumber <= 0) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_MIN_SIZE);
+        }
+
+        if (inputTryNumber > 2147483647) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_MAX_SIZE);
         }
     }
 
