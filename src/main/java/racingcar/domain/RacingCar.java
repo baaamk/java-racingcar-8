@@ -19,8 +19,10 @@ public class RacingCar {
         return new RacingCar(carName);
     }
 
-    public void move() {
-        state++;
+    public void move(int randomNumber) {
+        if (randomNumber >= 4) {
+            state++;
+        }
     }
 
     private static void validateCarName(String carName) {
