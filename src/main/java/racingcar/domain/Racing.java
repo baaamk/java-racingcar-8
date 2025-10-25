@@ -19,7 +19,7 @@ public class Racing {
         return new Racing(totalRound, racingCars, roundResult);
     }
 
-    public Map<Integer, RacingCars> playRacing(int totalRound) {
+    public Map<Integer, RacingCars> playRacing() {
         for (int i = 1; i <= totalRound; i++) {
             racingCars.play();
             roundResult.put(i, racingCars.copyRacingCars());
