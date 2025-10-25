@@ -62,4 +62,32 @@ class ParserTest {
                 .hasMessageContaining(ErrorMessage.INVALID_CAR_NAME_AS_DELIMITER);
     }
 
+    @Test
+    void 최소_숫자_범위_예외_테스트() {
+        assertThatThrownBy(() -> Parser.parseToTryNumber("0"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_MIN_SIZE);
+    }
+
+    @Test
+    void 최대_숫자_범위_예외_테스트() {
+        assertThatThrownBy(() -> Parser.parseToTryNumber("2147483648"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_MAX_SIZE);
+    }
+
+    @Test
+    void 소수_예외_테스트() {
+        assertThatThrownBy(() -> Parser.parseToTryNumber("5.5"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_FORMAT);
+    }
+
+    @Test
+    void 숫자_이외_문자입력_예외_테스트() {
+        assertThatThrownBy(() -> Parser.parseToTryNumber("pobi"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_FORMAT);
+    }
+
 }
