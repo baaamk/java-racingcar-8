@@ -30,4 +30,12 @@ class RacingCarsTest {
                 .hasMessageContaining(ErrorMessage.INVALID_CAR_NAME_NULL);
     }
 
+    @Test
+    void 한개의_자동차_생성_예외() {
+        RacingCar pobi = RacingCar.from("pobi");
+        assertThatThrownBy(() -> RacingCars.from(List.of(pobi)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.INVALID_CARS_COUNT);
+    }
+
 }
