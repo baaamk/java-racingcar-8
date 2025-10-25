@@ -6,5 +6,10 @@ public class ErrorMessage {
     public static final String INVALID_CAR_NAME_MAX_LENGTH = "문자 길이는 1자 이상 5자 이하여야 합니다.(5자 초과 입력)";
     public static final String INVALID_CAR_NAME_WHITESPACE = "이름 사이에 공백이 있어서는 안됩니다.";
     public static final String INVALID_CAR_NAME_BLANK = "이름이 비어있으면 안됩니다.";
+    public static final String INVALID_CARS_COUNT = "두 개 이상의 차 이름을 입력하세요.";
+    public static final String INVALID_CAR_NAME_AS_DELIMITER = "이름이 구분자와 동일하면 안됩니다.";
+    public static final String INVALID_CAR_NAME_DELIMITER = "구분자로만 이름을 구별해야 합니다.";
 
+    private ErrorMessage() {
+    }
 }
