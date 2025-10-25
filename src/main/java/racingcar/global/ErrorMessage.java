@@ -9,6 +9,9 @@ public class ErrorMessage {
     public static final String INVALID_CARS_COUNT = "두 개 이상의 차 이름을 입력하세요.";
     public static final String INVALID_CAR_NAME_AS_DELIMITER = "이름이 구분자와 동일하면 안됩니다.";
     public static final String INVALID_CAR_NAME_DELIMITER = "구분자로만 이름을 구별해야 합니다.";
+    public static final String INVALID_NUMBER_FORMAT = "0 이상의 정수만 입력해 주세요";
+    public static final String INVALID_NUMBER_MIN_SIZE = "0이하의 숫자가 입력되면 안됩니다.";
+    public static final String INVALID_NUMBER_MAX_SIZE = "입력 가능한 숫자 크기가 아닙니다.";
 
     private ErrorMessage() {
     }
