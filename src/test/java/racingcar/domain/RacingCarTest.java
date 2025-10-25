@@ -12,7 +12,7 @@ class RacingCarTest{
     @Test
     void 자동차_이름이_1자_이상_5자_이하_통과_테스트() {
         RacingCar racingCar = RacingCar.from("pobi");
-        assertEquals("pobi",racingCar.toString());
+        assertEquals("pobi",racingCar.getCarName());
     }
 
     @Test
