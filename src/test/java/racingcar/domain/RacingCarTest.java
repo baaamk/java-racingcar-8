@@ -23,6 +23,12 @@ class RacingCarTest{
         Assertions.assertThat(pobi.getState()).isNotEqualTo(java.getState());
     }
 
+    @Test
+    void 랜덤값이_3일때_전진하지_않는다() {
+        RacingCar pobi = RacingCar.from("pobi");
+        pobi.move(3);
+        Assertions.assertThat(pobi.getState()).isEqualTo(0);
+    }
 
     @Test
     void 자동차_이름이_5자_초과_에러_테스트() {
@@ -58,7 +64,5 @@ class RacingCarTest{
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorMessage.INVALID_CAR_NAME_BLANK);
     }
-
-
 
 }
