@@ -1,12 +1,7 @@
 package racingcar.presentation.view;
 
-import racingcar.controller.dto.RoundResultDto;
-import racingcar.controller.dto.WinnerDto;
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-
-import java.util.List;
-import java.util.Map;
+import racingcar.controller.dto.RoundResultsDto;
+import racingcar.controller.dto.WinnersDto;
 
 public class OutputViewImpl implements OutputView {
 
@@ -21,34 +16,25 @@ public class OutputViewImpl implements OutputView {
     }
 
     @Override
-    public void roundResultPrint(RoundResultDto roundResultDto) {
+    public void roundResultPrint(RoundResultsDto roundResultsDto) {
         StringBuilder sb = new StringBuilder();
         sb.append("실행 결과").append("\n");
 
-        roundResultDto.getRacingResults().entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> {
-                    RacingCars racingCars = entry.getValue();
-
-                    racingCars.getRacingCars().forEach(car ->
-                        sb.append(car.getCarName())
-                                .append(" : ")
-                                .append("-".repeat(car.getState()))
-                                .append("\n")
-                    );
-
-                    sb.append("\n");
-                });
+        roundResultsDto.asViewRows().forEach((round, roundResultDtos) -> {
+            roundResultDtos.forEach(roundResultDto -> sb.append(roundResultDto.getRacingCarName())
+                    .append(" : ")
+                    .append("-".repeat(roundResultDto.getPosition()))
+                    .append("\n"));
+            sb.append("\n");
+        });
         System.out.println(sb);
-
     }
 
     @Override
-    public void winnerPrint(WinnerDto winnerDto) {
+    public void winnerPrint(WinnersDto winnersDto) {
         StringBuilder sb = new StringBuilder();
         sb.append("최종 우승자 : ");
-        List<String> list = winnerDto.getRacingCars().stream().map(RacingCar::getCarName).toList();
-        sb.append(String.join(", ", list));
+        sb.append(winnersDto.toString());
 
         System.out.println(sb);
     }

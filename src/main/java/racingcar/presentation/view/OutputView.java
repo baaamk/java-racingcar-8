@@ -1,11 +1,11 @@
 package racingcar.presentation.view;
 
-import racingcar.controller.dto.RoundResultDto;
-import racingcar.controller.dto.WinnerDto;
+import racingcar.controller.dto.RoundResultsDto;
+import racingcar.controller.dto.WinnersDto;
 
 public interface OutputView {
     void initialPrint();
     void NumberRequestPrint();
-    void roundResultPrint(RoundResultDto roundResultDto);
-    void winnerPrint(WinnerDto winnerDto);
+    void roundResultPrint(RoundResultsDto roundResultsDto);
+    void winnerPrint(WinnersDto winnersDto);
 }
