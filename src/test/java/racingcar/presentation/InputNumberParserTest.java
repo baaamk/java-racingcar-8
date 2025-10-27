@@ -1,51 +1,76 @@
 package racingcar.presentation;
 
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import racingcar.domain.TryNumber;
 import racingcar.global.ErrorMessage;
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class InputNumberParserTest {
 
     @Test
-    void 문자열_숫자로_파싱_테스트() {
-        int racingCars= InputNumberParser.parseToTryNumber("5");
-        Assertions.assertThat(racingCars).isEqualTo(5);
+    @DisplayName("정상적인 숫자 문자열이면 TryNumber로 변환된다")
+    void 정상입력_변환성공() {
+        TryNumber result = InputNumberParser.parseToTryNumber("3");
+        assertThat(result.getTryNumber()).isEqualTo(3);
     }
 
     @Test
-    void 숫자_입력_공백_제거_테스트() {
-        int racingCars= InputNumberParser.parseToTryNumber(" 5 ");
-        Assertions.assertThat(racingCars).isEqualTo(5);
+    @DisplayName("앞뒤 공백이 있으면 예외 발생")
+    void 공백입력_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber(" 3 "))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_FORMAT)
+        );
     }
 
     @Test
-    void 최소_숫자_범위_예외_테스트() {
-        assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("0"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_MIN_SIZE);
+    @DisplayName("문자 입력 시 예외 발생")
+    void 문자입력_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("abc"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_FORMAT)
+        );
     }
 
     @Test
-    void 최대_숫자_범위_예외_테스트() {
-        assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("2147483648"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_MAX_SIZE);
+    @DisplayName("소수 입력 시 예외 발생")
+    void 소수입력_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("3.5"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_FORMAT)
+        );
     }
 
     @Test
-    void 소수_예외_테스트() {
-        assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("5.5"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_FORMAT);
+    @DisplayName("0 이하 입력 시 예외 발생")
+    void 음수또는0입력_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("0"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_MIN_SIZE)
+        );
+
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("-5"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_FORMAT)
+        );
     }
 
     @Test
-    void 숫자_이외_문자입력_예외_테스트() {
-        assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("pobi"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessage.INVALID_NUMBER_FORMAT);
+    @DisplayName("int 범위를 초과하면 예외 발생")
+    void int범위초과_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> InputNumberParser.parseToTryNumber("9999999999"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage(ErrorMessage.INVALID_NUMBER_MAX_SIZE)
+        );
     }
-
 }
