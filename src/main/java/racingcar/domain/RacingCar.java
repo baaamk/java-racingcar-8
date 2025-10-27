@@ -1,80 +1,57 @@
 package racingcar.domain;
 
-import racingcar.global.ErrorMessage;
+import java.util.Objects;
 
-public class RacingCar implements Cloneable{
+public class RacingCar{
 
-    private final String carName;
-    private int state;
+    private static final int START_POSITION = 0;
 
-    private RacingCar(String carName) {
-        validateCarName(carName);
-        this.carName = carName;
-        this.state = 0;
+    private final RacingCarName racingCarName;
+    private final RacingCarPosition position;
+
+    private RacingCar(RacingCarName racingCarName, RacingCarPosition position) {
+        this.racingCarName = racingCarName;
+        this.position = position;
     }
 
-    public static RacingCar from(String carName) {
-        return new RacingCar(carName);
+    public static RacingCar from(RacingCarName racingCarName) {
+        RacingCarPosition position = RacingCarPosition.of(START_POSITION);
+        return new RacingCar(racingCarName,position);
     }
 
-    public void move(int randomNumber) {
+    public RacingCar move(int randomNumber) {
         if (randomNumber >= 4) {
-            state++;
+            return new RacingCar(racingCarName, position.move());
         }
+        return this;
     }
 
-    private static void validateCarName(String carName) {
-        validateNotNullOrBlank(carName);
-        validateMaximumLength(carName);
-        validateNoWhiteSpace(carName);
+    public boolean isMoreThan(RacingCar otherCar) {
+        return position.isMoreThan(otherCar.position);
     }
 
-    private static void validateNotNullOrBlank(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_NULL);
-        }
-
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_EMPTY);
-        }
-
-        if (name.isBlank()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_BLANK);
-        }
+    public boolean isAtSamePositionAs(RacingCar other) {
+        return position.isSameAs(other.position);
     }
 
-    private static void validateMaximumLength(String carName) {
-        if (carName.length() > 5) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_MAX_LENGTH);
-        }
+
+    public String getRacingCarName() {
+        return racingCarName.getInputName();
     }
 
-    private static void validateNoWhiteSpace(String carName) {
-        if (carName.contains(" ")) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_WHITESPACE);
-        }
-    }
-
-    public String getCarName() {
-        return carName;
-    }
-
-    public int getState() {
-        return state;
+    public int getPosition() {
+        return position.getFinalPosition();
     }
 
     @Override
-    public String toString() {
-        return carName;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RacingCar racingCar = (RacingCar) o;
+        return Objects.equals(racingCarName, racingCar.racingCarName);
     }
 
-
     @Override
-    public RacingCar clone() {
-        try {
-            return (RacingCar) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+    public int hashCode() {
+        return Objects.hashCode(racingCarName);
     }
 }
