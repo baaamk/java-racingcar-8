@@ -3,7 +3,9 @@ package racingcar.domain;
 import camp.nextstep.edu.missionutils.Randoms;
 import racingcar.global.ErrorMessage;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RacingCars {
     private final List<RacingCar> racingCars;
@@ -13,48 +15,55 @@ public class RacingCars {
         this.racingCars = racingCars;
     }
 
+
     public static RacingCars from(List<String> racingCars) {
         return new RacingCars(
                 racingCars.stream()
-                        .map(RacingCar::from)
+                        .map(name -> RacingCar.from(RacingCarName.from(name)))
                         .toList()
         );
     }
 
-    public void play() {
-        for (RacingCar racingCar : racingCars) {
-            int randomNumber = Randoms.pickNumberInRange(0, 9);
-            racingCar.move(randomNumber);
-        }
+    private static RacingCars fromRacingCars(List<RacingCar> racingCars) {
+        return new RacingCars(racingCars);
+    }
+
+    public RacingCars play() {
+        List<RacingCar> movedCars = racingCars.stream()
+                .map(car -> car.move(Randoms.pickNumberInRange(0, 9)))
+                .toList();
+
+        return RacingCars.fromRacingCars(movedCars);
     }
 
     public RacingCars findWinner() {
-        int maxState = racingCars.stream()
-                .mapToInt(RacingCar::getState)
-                .max()
+        RacingCar winner = racingCars.stream()
+                .reduce((car1, car2) -> {
+                    if (car1.isMoreThan(car2)) return car1;
+                    return car2;
+                })
                 .orElseThrow(() -> new IllegalStateException(ErrorMessage.INVALID_CAR_NAME_NULL));
 
-        List<String> winners = racingCars.stream()
-                .filter(racingCar -> racingCar.getState() == maxState)
-                .map(RacingCar::getCarName)
+        List<RacingCar> winners = racingCars.stream()
+                .filter(car -> car.isAtSamePositionAs(winner))
                 .toList();
 
-        // 문자열 기반 from()만 사용
-        return RacingCars.from(winners);
-    }
-
-    public RacingCars copyRacingCars() {
-        List<RacingCar> clonedRacingCars = racingCars.stream()
-                .map(RacingCar::clone)
-                .toList();
-        return new RacingCars(clonedRacingCars);
+        return RacingCars.fromRacingCars(winners);
     }
 
     private static void validate(List<RacingCar> racingCars) {
         if (racingCars == null || racingCars.isEmpty()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_NULL);
         }
+
+        Set<String> uniqueNames = new HashSet<>();
+        for (RacingCar racingCar : racingCars) {
+            if (!uniqueNames.add(racingCar.getRacingCarName())) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_DUPLICATED_NAME);
+            }
+        }
     }
+
 
     public List<RacingCar> getRacingCars() {
         return racingCars;
