@@ -1,17 +1,22 @@
 package racingcar.controller.dto;
 
-import racingcar.domain.RacingCars;
-
-import java.util.Map;
-
 public class RoundResultDto {
-    private final Map<Integer, RacingCars> racingResults;
+    private final String racingCarName;
+    private final int position;
 
-    public RoundResultDto(Map<Integer, RacingCars> racingResults) {
-        this.racingResults = racingResults;
+    private RoundResultDto(String racingCarName, int position) {
+        this.racingCarName = racingCarName;
+        this.position = position;
     }
 
-    public Map<Integer, RacingCars> getRacingResults() {
-        return racingResults;
+    public static RoundResultDto of(String racingCarName, int position) {
+        return new RoundResultDto(racingCarName, position);
+    }
+
+    public String getRacingCarName() {
+        return racingCarName;
+    }
+    public int getPosition() {
+        return position;
     }
 }

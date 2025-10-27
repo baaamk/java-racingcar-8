@@ -1,18 +1,18 @@
 package racingcar.controller.dto;
 
-import racingcar.domain.RacingCar;
-import racingcar.domain.RacingCars;
-
-import java.util.List;
-
 public class WinnerDto {
-    private final RacingCars racingCars;
+    private final String winnerName;
 
-    public WinnerDto(RacingCars racingCars) {
-        this.racingCars = racingCars;
+    private WinnerDto(String winnerName) {
+        this.winnerName = winnerName;
     }
 
-    public List<RacingCar> getRacingCars() {
-        return racingCars.getRacingCars();
+    public static WinnerDto from(String winnerName) {
+        return new WinnerDto(winnerName);
     }
+
+    public String getWinnerName() {
+        return winnerName;
+    }
+
 }
