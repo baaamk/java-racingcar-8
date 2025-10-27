@@ -18,18 +18,13 @@ public class RoundResultsDto {
         return new RoundResultsDto(racingResults);
     }
 
-
-    public Map<Integer, RacingCars> getRacingResults() {
-        return Map.copyOf(racingResults);
-    }
-
     public Map<Integer, List<RoundResultDto>> asViewRows() {
         return racingResults.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         e -> e.getValue().getRacingCars().stream()
                                 .map(car -> RoundResultDto.of(car.getRacingCarName(), car.getPosition()))
-                                .collect(Collectors.toUnmodifiableList()),
+                                .toList(),
                         (a, b) -> a,
                         TreeMap::new
                 ));
