@@ -4,9 +4,10 @@ import racingcar.controller.dto.RoundResultDto;
 import racingcar.controller.dto.WinnerDto;
 import racingcar.domain.Racing;
 import racingcar.domain.RacingCars;
-import racingcar.infrastructure.Parser;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
+import racingcar.presentation.InputNumberParser;
+import racingcar.presentation.InputRacingCarNamesParser;
+import racingcar.presentation.view.InputView;
+import racingcar.presentation.view.OutputView;
 
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,10 @@ public class Controller implements Runnable{
     @Override
     public void run() {
         String RacingCarNames = requestRacingCarNames();
-        List<String> inputRacingCars = Parser.parseToRacingCars(RacingCarNames);
+        List<String> inputRacingCars = InputRacingCarNamesParser.parseToRacingCars(RacingCarNames);
         RacingCars racingCars = RacingCars.from(inputRacingCars);
         String inputTryNumber = requestTryNumber();
-        int tryNumber = Parser.parseToTryNumber(inputTryNumber);
+        int tryNumber = InputNumberParser.parseToTryNumber(inputTryNumber);
         Racing racing = Racing.of(tryNumber, racingCars);
         Map<Integer, RacingCars> racingResults = racing.playRacing();
         RoundResultDto roundResultDto = new RoundResultDto(racingResults);

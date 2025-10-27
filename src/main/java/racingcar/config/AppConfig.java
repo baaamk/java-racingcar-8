@@ -1,10 +1,10 @@
 package racingcar.config;
 
 import racingcar.controller.Controller;
-import racingcar.view.InputView;
-import racingcar.view.InputViewImpl;
-import racingcar.view.OutputView;
-import racingcar.view.OutputViewImpl;
+import racingcar.presentation.view.InputView;
+import racingcar.presentation.view.InputViewImpl;
+import racingcar.presentation.view.OutputView;
+import racingcar.presentation.view.OutputViewImpl;
 
 public class AppConfig {
     public Controller controller() {
