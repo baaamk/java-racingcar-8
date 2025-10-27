@@ -10,7 +10,6 @@ public class InputRacingCarNamesParser {
 
     private static final Pattern TRIPLE_COMMA = Pattern.compile(".*,,,.+");
     private static final Pattern DOUBLE_COMMA = Pattern.compile("(^,.*|.*,,.*|.*,$)");
-    private static final Pattern NO_COMMA = Pattern.compile("^[^,]+$");
 
     public static List<String> parseToRacingCars(String inputNames) {
         validateDelimiterUsage(inputNames);
@@ -19,9 +18,6 @@ public class InputRacingCarNamesParser {
                 .toList();
     }
 
-
-
-
     private static void validateDelimiterUsage(String inputNames) {
         if (TRIPLE_COMMA.matcher(inputNames).find()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_AS_DELIMITER);
@@ -29,16 +25,7 @@ public class InputRacingCarNamesParser {
         if (DOUBLE_COMMA.matcher(inputNames).matches()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_EMPTY);
         }
-        if (NO_COMMA.matcher(inputNames).matches()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_CAR_NAME_DELIMITER);
-        }
     }
 
-
-
-
-
     private InputRacingCarNamesParser() {}
-
-
 }
