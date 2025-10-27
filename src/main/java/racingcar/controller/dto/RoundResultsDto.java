@@ -22,10 +22,10 @@ public class RoundResultsDto {
         return racingResults.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        e -> e.getValue().getRacingCars().stream()
+                        racingCarsEntry -> racingCarsEntry.getValue().getRacingCars().stream()
                                 .map(car -> RoundResultDto.of(car.getRacingCarName(), car.getPosition()))
                                 .toList(),
-                        (a, b) -> a,
+                        (roundResultDtos, secondRoundResultDtos) -> roundResultDtos,
                         TreeMap::new
                 ));
     }
